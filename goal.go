@@ -123,7 +123,6 @@ func insertHits() {
 		conn)
 	for i := 0; i < size; i++ {
 		hit := <-hitQueue
-		fmt.Println("inserting path", hit.Path)
 		bulk.Add(
 			hit.ID,
 			hit.Path,
@@ -234,7 +233,6 @@ func Record(req *http.Request, extra RecordExtra) (error, string) {
 	if extra.HitID == "" {
 		extra.HitID = GenHitID()
 	}
-	fmt.Println("Record", r.URL.String(), r.URL.EscapedPath())
 	hit := Hit{
 		ID:               extra.HitID,
 		Path:             strings.Clone(r.URL.EscapedPath()),
@@ -317,7 +315,6 @@ func SummarizeTables(date time.Time) {
 			GROUP BY %s
 			HAVING c > %d
 	`, col, col, col, minCount)
-		fmt.Println("SLQ", sql)
 		pool.Exec(sql, date.Unix())
 	}
 	sql := fmt.Sprintf(`
@@ -329,6 +326,5 @@ func SummarizeTables(date time.Time) {
 		GROUP BY wh
 		HAVING c > %d
 `, minCount)
-	fmt.Println("sql", sql)
 	pool.Exec(sql, date.Unix())
 }

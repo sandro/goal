@@ -1,7 +1,6 @@
 package goal
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -43,7 +42,6 @@ func NewFiberMiddleware(config ...FiberConfig) fiber.Handler {
 		if err := c.Next(); err != nil {
 			return err
 		}
-		fmt.Println("fibermiddleware path", c.Path())
 		var req http.Request
 		err := fasthttpadaptor.ConvertRequest(c.Context(), &req, true)
 		if err != nil {
